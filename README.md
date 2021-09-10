@@ -8,6 +8,6 @@
 akg\(_)_]]      /  |  \                            *   *  .   .
                                                      '   *
 
-Art source and credits -> https://www.asciiart.eu/space/telescopes
+https://www.asciiart.eu/space/telescopes
 
 ```
