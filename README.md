@@ -16,7 +16,7 @@ https://www.asciiart.eu/space/telescopes
 
 ### Electricity 
  - India Energy Generation and Transmition powermin.gov.in https://npp.gov.in/publishedReports
- - Global renuable energy 
+ - Global renewable energy 
 
 ### Information technology
 
