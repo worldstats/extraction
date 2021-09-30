@@ -27,6 +27,6 @@ https://www.asciiart.eu/space/telescopes
 ### Crypto
 
 
-### Macro Echonomics
+### Macroeconomics
 
 
