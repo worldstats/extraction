@@ -46,9 +46,9 @@ def toChart():
 
             },
             {
-                "color": "brown",
+                "color": "#993300",
                 "type": "bar",
-                "opacity": 0.5,
+                "opacity": 1,
                 "name": "Fossil Fuels",
                 "data": fossil_fuels,
                 "stack": False
