@@ -9,11 +9,11 @@ app.use('/charts',express.static(path.resolve(__dirname,'..','charts')));
 
 app.use('/data',express.static(path.resolve(__dirname,'..','charts')));
 
-app.use('/pages',express.static(path.resolve(__dirname,'..','charts')));
+app.use('/documents',express.static(path.resolve(__dirname,'..','charts')));
 
 app.use('/data',express.static(path.resolve(__dirname,'..','charts')));
 
-app.use('/raw',express.static(path.resolve(__dirname,'..','charts')));
+app.use('/raw',express.static(path.resolve(__dirname,'..','raw')));
 
 const PORT = 4000;
 

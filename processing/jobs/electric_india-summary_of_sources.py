@@ -2,59 +2,40 @@ import numpy as np
 import pandas as pd
 import json
 from utils.execute_current import execute_current
+import xlrd
 
-raw_file = "./raw/utlity_companies.csv"
+raw_file = "./raw/capacity1-2021-08.xls"
 chart_file = "./charts/electric_india-summary-capacity-sources.json"
 
+
 def toChart():
-  s = pd.read_csv(raw_file)
-  filtered = s
-  capacity = []
-  generation = []
-  renewable_generation = []
-  
-  for index in filtered.index:
-    capacity.append({"x": filtered["Company"][index], "y": filtered["Capacity"][index] })
-    generation.append({"x": filtered["Company"][index], "y": filtered["Generation"][index] })
-    renewable_generation.append({"x": filtered["Company"][index], "y": filtered["CleanGeneration"][index] })
+    workbook = xlrd.open_workbook_xls(raw_file)
 
-  #sort
-  renewable_generation.sort(key=lambda point : point["y"],reverse=True)
+    sheet = workbook.sheet_by_index(0)
 
-  return {
-      "type":"NumberStats",
+    smallhydro = sheet.cell_value(colx=1, rowx=39)
+    wind = sheet.cell_value(colx=2, rowx=39)
+    solar = sheet.cell_value(colx=10, rowx=39)
+
+    series = []
+
+    for row in [["Small Hydro", smallhydro], ["Wind", wind], ["Solar", solar]]:
+        series.append({
+            "color": "green",
+            "type": "bar",
+            "opacity": 1,
+            "name": row[0],
+            "data": row[1]
+        })
+
+    return {
+        "type": "NumberStats",
         "options": {
-        "units": "MW",
-        "yType": "category"
+            "units": "MW",
+            "yType": "category"
         },
-      "series": [{
-        "color": "green",
-        "type": "bar",
-        "opacity": 1,
-        "name": "Renewable Capacity",
-        "data": 12
-      },
-      {
-        "color": "green",
-        "type": "bar",
-        "opacity": 1,
-        "name": "Renewable Capacity",
-        "data": 13
-      },
-      {
-        "color": "green",
-        "type": "bar",
-        "opacity": 1,
-        "name": "Renewable Capacity",
-        "data": 14
-      },
-      {
-        "color": "green",
-        "type": "bar",
-        "opacity": 1,
-        "name": "Renewable Capacity",
-        "data": 15
-      }]
+        "series": series
     }
+
 
 execute_current()
