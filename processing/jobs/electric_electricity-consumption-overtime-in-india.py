@@ -42,16 +42,16 @@ def toChart():
                 "opacity": 1,
                 "name": "Renewable Energy",
                 "data": green_energy,
-                "stack": False
+                "stack": True
 
             },
             {
-                "color": "#993300",
+                "color": "navy",
                 "type": "bar",
                 "opacity": 1,
                 "name": "Fossil Fuels",
                 "data": fossil_fuels,
-                "stack": False
+                "stack": True
             },
         ]
     }
