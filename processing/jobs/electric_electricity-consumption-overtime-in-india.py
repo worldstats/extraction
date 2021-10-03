@@ -4,7 +4,7 @@ import json
 from utils.execute_current import execute_current
 
 raw_file = "./raw/electricity-generation.csv"
-raw_file2 = "./raw/energy-consumption-by-source-and-region.csv"
+raw_file2 = "https://raw.githubusercontent.com/owid/energy-data/master/owid-energy-data.csv"
 chart_file = "./charts/electric_india-electricity-consumption-over-time.json"
 
 
@@ -13,44 +13,46 @@ def toChart():
     cres = pd.read_csv(raw_file2)
     fossil_fuels = []
     green_energy = []
+    coal_energy = []
+    oil_electricity = []
 
-    cres_india = cres[cres["Entity"] == "India"]
+    cres_india = cres[cres["country"] == "India"]
+    cres_india = cres_india[cres["fossil_electricity"].isnull() ^ 1]
 
     for index in cres_india.index:
-        fossil_fuels.append({
-            "x": cres_india["Year"][index],
-            "y": int(cres_india["Coal Consumption - EJ"][index])
-                 + int(cres_india["Oil Consumption - EJ"][index])
-                 + int(cres_india["Gas Consumption - EJ"][index])
-                 + int(cres_india["Nuclear Consumption - EJ"][index])
+        green_energy.append({
+            "x": int(cres_india["year"][index]),
+            "y": float(cres_india["renewables_electricity"][index])
         })
 
-    for index in cres[cres["Entity"] == "India"].index:
-        green_energy.append({
-            "x": cres_india["Year"][index],
-            "y": int(cres_india["Hydro Consumption - EJ"][index])
-                 + int(cres_india["Wind Consumption - EJ"][index])
-                 + int(cres_india["Geo Biomass Other - EJ"][index])
-                 + int(cres_india["Biofuels (TWh)"][index])
-                 + int(cres_india["Solar Consumption - EJ"][index])
+        fossil_fuels.append({
+            "x": int(cres_india["year"][index]),
+            "y": float(cres_india["fossil_electricity"][index])
         })
 
     return {
         "type": "TimeSeries",
-        "series": [{
-            "color": "brown",
-            "type": "bar",
-            "opacity": 0.5,
-            "name": "Fossil Fuels",
-            "data": fossil_fuels
+        "options": {
+          "stackBy": "y"
         },
+        "series": [
             {
                 "color": "green",
                 "type": "bar",
                 "opacity": 1,
                 "name": "Renewable Energy",
-                "data": green_energy
-            }
+                "data": green_energy,
+                "stack": False
+
+            },
+            {
+                "color": "brown",
+                "type": "bar",
+                "opacity": 0.5,
+                "name": "Fossil Fuels",
+                "data": fossil_fuels,
+                "stack": False
+            },
         ]
     }
 
